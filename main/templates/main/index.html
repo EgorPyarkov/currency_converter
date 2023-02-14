@@ -1,0 +1,48 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="info">
+        <div class="input"><h4>Введите число |</h4></div>
+        <div class="from"><h4>Из какой валюты |</h4></div>
+        <div class="get"><h4>В какую валюту</h4></div>
+
+    </div>
+    <div class="interaction">
+        <div class="input">
+           <input id='amount' type="number" class="form-control" placeholder="Введите число" {% if from_amount %} value="{{ from_amount }}" {% endif %} name="from-amount">
+        </div>
+        <div class="from_">
+
+            <select class="form-control" id="from_curr" name="from-curr" value="{{ from_curr }}">
+                {% for curr in currencies %}
+                 <option value="{{ curr }}" {% if from_curr == curr %}selected{% endif %}>{{ curr }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="get">
+            <select class="form-control" id="to-curr" name="to-curr" value="{{ to_curr }}">
+                {% for curr in currencies %}
+                     <option value="{{ curr }}" {% if to_curr == curr %}selected{% endif %}>{{ curr }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    {% if converted_amount %}
+                        <div class="card col-6 p-0 m-auto">
+                            <div class="card-header text-center">
+                                    <h5>Отдаем <b>{{ from_curr }}</b> Получаем
+                                        <b>{{ to_curr }}</b></h5>
+                            </div>
+                            <div class="card-body">
+                                {{ converted_amount }}
+                            </div>
+                        </div>
+                    {% endif %}
+    <button class="submit">Конвертировать</button>
+</form>
+{% endblock %}
